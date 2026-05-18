@@ -401,11 +401,15 @@ function renderMuseums(items) {
   grid.innerHTML = items
     .map(
       (item) => `
-      <article class="card">
-        <span class="badge">${item.region}</span>
-        <h3>${item.name}</h3>
+      <article class="card card--museum">
+        <div class="card__badges">
+          <span class="badge success">3D</span>
+          <span class="badge">${escapeHtml(item.region)}</span>
+        </div>
+        <h3>${escapeHtml(item.name)}</h3>
+        <p class="muted card__hint">Không gian tham quan trực tuyến</p>
         <div class="actions">
-          <a class="btn secondary" href="${item.url}" target="_blank" rel="noopener noreferrer">Tham quan ngay</a>
+          <a class="btn primary" href="${item.url}" target="_blank" rel="noopener noreferrer">Tham quan 3D</a>
         </div>
       </article>
     `,

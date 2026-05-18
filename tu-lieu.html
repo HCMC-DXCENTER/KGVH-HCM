@@ -6,7 +6,7 @@
     <title>Tin - Tư liệu | Không gian Văn hóa Hồ Chí Minh</title>
     <meta
       name="description"
-      content="Trang tin và tư liệu tổng hợp từ nguồn chính thống về Hồ Chí Minh."
+      content="Tin tức, tư liệu đa phương tiện và bản đồ tham quan bảo tàng, di tích 3D về Chủ tịch Hồ Chí Minh."
     />
     <link rel="stylesheet" href="./landing.css" />
   </head>
@@ -18,13 +18,40 @@
         <p class="landing-hero__label">Chuyên mục · Kho tàng di sản</p>
         <h1 class="landing-hero__title landing-serif">Tin tức — Tư liệu học tập và làm theo Bác</h1>
         <p class="landing-hero__desc">
-          Tổng hợp bài viết, video, audio, ảnh tư liệu. Bạn có thể lọc theo loại nội dung và
-          tìm kiếm theo từ khóa.
+          Tổng hợp bài viết, video, audio, ảnh tư liệu và các điểm tham quan 3D theo địa phương.
+          Lọc, tìm kiếm và mở không gian ba chiều ngay trên trang.
         </p>
       </div>
     </header>
 
     <main class="landing-page-main container">
+      <section class="block" id="bao-tang-3d">
+        <div class="section-head">
+          <h2>Bảo tàng và di tích 3D</h2>
+          <p class="count">Tổng số: <strong id="museums-count">0</strong></p>
+        </div>
+        <p class="section-lead">
+          Tham quan trực tuyến các bảo tàng, khu di tích bằng không gian ba chiều — theo từng
+          địa phương trên cả nước.
+        </p>
+        <p class="note museum-portal">
+          <strong>Bản đồ 3D tổng hợp:</strong>
+          <a href="https://hochiminh.vn/bao-tang-3d" target="_blank" rel="noopener noreferrer"
+            >Mở bản đồ bảo tàng 3D trên hochiminh.vn</a
+          >
+        </p>
+        <label class="search-wrap" for="museum-search">
+          <span>Tìm theo tên địa điểm hoặc khu vực</span>
+          <input
+            id="museum-search"
+            type="search"
+            placeholder="Ví dụ: Cần Thơ, Bến Nhà Rồng, Pác Bó..."
+            autocomplete="off"
+          />
+        </label>
+        <div id="museums-grid" class="grid grid--museums"></div>
+      </section>
+
       <section class="block">
         <div class="section-head">
           <h2>Danh sách tư liệu</h2>
@@ -60,7 +87,7 @@
         <p class="landing-foot__links">
           <a href="./thu-vien.html">Thư viện sách</a>
           <span class="landing-foot__sep">·</span>
-          <a href="./bao-tang-3d.html">Bảo tàng 3D</a>
+          <a href="./tu-lieu.html#bao-tang-3d">Bảo tàng 3D</a>
           <span class="landing-foot__sep">·</span>
           <span>&copy; <span id="current-year"></span></span>
         </p>
