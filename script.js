@@ -173,21 +173,112 @@ const museums = [
   },
 ];
 
+/** Dòng đời Chủ tịch Hồ Chí Minh — theo đề cương triển lãm ảnh */
 const roadmap = [
   {
-    phase: "Giai đoạn 1 (2 tuần)",
-    name: "Nền tảng cổng thông tin",
-    detail: "Hoàn thiện giao diện, cấu trúc trang, tích hợp liên kết nguồn và tìm kiếm cơ bản.",
+    phase: "1890 – 1911",
+    name: "Người học trò yêu nước, dấn thân",
+    imageCount: 16,
+    detail:
+      "Từ quê hương Sen – Chùa (Kim Liên, Nam Đàn) đến Huế, Phan Thiết và Sài Gòn: Nguyễn Sinh Cung – Nguyễn Tất Thành hun đúc ý chí yêu nước, dấn thân vào đấu tranh (như phong trào chống thuế 1908) rồi ra đi tìm đường cứu nước.",
+    highlights: [
+      "Quê ngoại Hoàng Trù, quê nội Làng Sen và gia đình (cụ Nguyễn Sinh Sắc, bà Hoàng Thị Loan).",
+      "Học chữ Hán, theo học Trường Quốc học Huế; dạy học tại Trường Dục Thanh (Phan Thiết).",
+      "Năm 1911, từ bến Sài Gòn lên tàu Amiral Latouche Tréville rời Tổ quốc.",
+    ],
   },
   {
-    phase: "Giai đoạn 2 (2 tuần)",
-    name: "Chuẩn hóa nội dung",
-    detail: "Biên tập metadata, phân nhóm chủ đề và chuẩn hóa chính sách dẫn nguồn.",
+    phase: "1911 – 1920",
+    name: "Người thanh niên và con đường cứu nước",
+    imageCount: 7,
+    detail:
+      "Thời kỳ Nguyễn Tất Thành – Nguyễn Ái Quốc sống và làm việc ở Pháp, Anh, tham gia đấu tranh của người Việt yêu nước tại Pháp, tìm con đường giải phóng dân tộc.",
+    highlights: [
+      "Đặt chân tới Marseille (6/7/1911); làm việc tại khách sạn Carlton (London, 1913).",
+      "Trụ sở Hội Những người Việt Nam yêu nước tại Paris (6 Villa des Gobelins).",
+      "Đại hội Tours (12/1920): tán thành Quốc tế III, trở thành người cộng sản đầu tiên của dân tộc Việt Nam.",
+    ],
   },
   {
-    phase: "Giai đoạn 3 (2 tuần)",
-    name: "Khai thác dữ liệu tự động",
-    detail: "Kết nối RSS/API chính thức (nếu có), thêm quy trình kiểm duyệt trước khi xuất bản.",
+    phase: "1920 – 1924",
+    name: "Chiến sĩ cộng sản quốc tế — đại biểu nhân dân thuộc địa",
+    imageCount: 7,
+    detail:
+      "Nguyễn Ái Quốc hoạt động trong phong trào cộng sản và công đoàn Pháp, sáng tác trên báo Le Paria, đại diện nhân dân Đông Dương tại các diễn đàn quốc tế.",
+    highlights: [
+      "Vẽ tranh châm biếm trên báo Le Paria, vạch trần luận điệu “khai hóa” của thực dân Pháp.",
+      "Dự Hội nghị Quốc tế Nông dân (Moskva, 10/1923); được bầu vào Ban Chấp hành.",
+      "Đại hội V Quốc tế Cộng sản (1924): kêu gọi tập trung sức lực vào vấn đề thuộc địa theo lời giáo huấn của Lenin.",
+    ],
+  },
+  {
+    phase: "1924 – 1930",
+    name: "Người nhóm lửa cách mạng",
+    imageCount: 12,
+    detail:
+      "Sau Đại hội V Quốc tế Cộng sản, Nguyễn Ái Quốc về Quảng Châu vừa tham gia cách mạng Trung Quốc vừa xây dựng phong trào cách mạng Việt Nam và Đông Dương, chuẩn bị thành lập Đảng.",
+    highlights: [
+      "Đào tạo cán bộ cách mạng; chuẩn bị Hội nghị thành lập Đảng Cộng sản Việt Nam (1930).",
+      "Trần Phú — học trò xuất sắc, Tổng bí thư đầu tiên, người khởi thảo Luận cương chính trị.",
+    ],
+  },
+  {
+    phase: "1930 – 1945",
+    name: "Người lãnh đạo Tổng khởi nghĩa thắng lợi",
+    imageCount: 24,
+    detail:
+      "Từ phong trào Xô Viết Nghệ Tĩnh đến về nước (1941), lãnh đạo Việt Minh, thành lập Quân đội nhân dân và chỉ huy Cách mạng Tháng Tám — khai sinh nước Việt Nam Dân chủ Cộng hòa.",
+    highlights: [
+      "28/1/1941 về Pác Bó (Cao Bằng); Hội nghị Trung ương 8 (5/1941) thành lập Mặt trận Việt Minh.",
+      "22/12/1944: thành lập đội Việt Nam tuyên truyền giải phóng quân — tiền thân Quân đội Nhân dân.",
+      "16/8/1945 Quốc dân Đại hội Tân Trào; 2/9/1945 đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình.",
+    ],
+  },
+  {
+    phase: "1945 – 1954",
+    name: "Người xây nền độc lập",
+    imageCount: 28,
+    detail:
+      "Chủ tịch nước Việt Nam Dân chủ Cộng hòa đầu tiên: kiến thiết chính quyền dân chủ, đàm phán với Pháp, quyết định kháng chiến trường kỳ và lãnh đạo đến thắng lợi Điện Biên Phủ.",
+    highlights: [
+      "Quốc hội khóa I (bầu cử 6/1/1946); Chính phủ dân chủ cách mạng do Hồ Chí Minh làm Chủ tịch.",
+      "“Nhất định không chịu làm nô lệ lần nữa” — quyết tâm toàn dân sau Hiệp định 14/9/1946.",
+      "Chiến dịch Biên giới (1950), chiến dịch Điện Biên Phủ — toàn thắng 7/5/1954.",
+    ],
+  },
+  {
+    phase: "1954 – 1969",
+    name: "Lãnh tụ của nhân dân",
+    imageCount: 35,
+    detail:
+      "Lãnh đạo miền Bắc xây dựng chủ nghĩa xã hội, đấu tranh thống nhất Tổ quốc; gần gũi công nhân, nông dân, thanh niên, phụ nữ; đối ngoại và động viên miền Nam anh hùng.",
+    highlights: [
+      "1/1/1960: ký sắc lệnh công bố Hiến pháp xã hội chủ nghĩa đầu tiên của nước ta.",
+      "Đại hội Đảng lần thứ III (9/1960): xây dựng CNXH ở miền Bắc, đấu tranh hòa bình thống nhất.",
+      "“Mỗi người làm việc bằng hai” — kêu gọi đền đáp đồng bào miền Nam; thăm bộ đội, anh hùng miền Nam.",
+    ],
+  },
+  {
+    phase: "Di chúc · 1969",
+    name: "Di chúc của Chủ tịch Hồ Chí Minh",
+    imageCount: null,
+    detail:
+      "Bản Di chúc thể hiện tâm nguyện trọn đời vì Tổ quốc, vì nhân dân: xây dựng nước Việt Nam hòa bình, thống nhất, độc lập, dân chủ và giàu mạnh; gìn giữ Đảng trong sạch, gần gũi nhân dân.",
+    highlights: [
+      "Công bố năm 1969 — di sản chính trị và đạo đức cách mạng cho mọi thế hệ.",
+      "Nhắc nhở về đoàn kết toàn dân, xây dựng chủ nghĩa xã hội và thực hiện thống nhất đất nước.",
+    ],
+  },
+  {
+    phase: "1969 – 2011",
+    name: "Chủ tịch Hồ Chí Minh sống mãi trong sự nghiệp của chúng ta",
+    imageCount: null,
+    detail:
+      "Sau khi Người đi xa, tư tưởng, đạo đức và sự nghiệp cách mạng của Bác tiếp tục soi đường cho dân tộc — từ kháng chiến thống nhất đến đổi mới, hội nhập và xây dựng đất nước ngày càng vững mạnh.",
+    highlights: [
+      "Nhân dân Việt Nam thực hiện di nguyện thống nhất non sông (30/4/1975).",
+      "Học tập và làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh trong mọi lĩnh vực đời sống.",
+    ],
   },
 ];
 
@@ -213,6 +304,28 @@ function byKeyword(item, keyword, keys) {
   if (!keyword) return true;
   const value = keys.map((k) => String(item[k] || "")).join(" ").toLowerCase();
   return value.includes(keyword.toLowerCase());
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function exhibitionImageUrl(entry) {
+  if (typeof EXHIBITION === "undefined") return "";
+  const base = EXHIBITION.dir.replace(/\/?$/, "/");
+  if (entry.id != null) {
+    return encodeURI(`${base}H ${entry.id}.jpg`);
+  }
+  return encodeURI(`${base}${entry.file}`);
+}
+
+function exhibitionImageCode(entry) {
+  if (entry.id != null) return `H ${entry.id}`;
+  return entry.file.replace(/\.[^.]+$/, "");
 }
 
 function setCount(id, value) {
@@ -304,16 +417,46 @@ function renderMuseums(items) {
 function renderRoadmap(items) {
   const container = document.getElementById("roadmap-list");
   if (!container) return;
+  const phaseImages =
+    typeof EXHIBITION !== "undefined" && EXHIBITION.phaseImages
+      ? EXHIBITION.phaseImages
+      : [];
+
   container.innerHTML = items
-    .map(
-      (item) => `
+    .map((item, index) => {
+      const images = phaseImages[index] || [];
+      const countLabel = images.length
+        ? ` · ${images.length} ảnh triển lãm`
+        : item.imageCount != null
+          ? ` · ${item.imageCount} ảnh triển lãm`
+          : "";
+      const gallery = images.length
+        ? `<div class="timeline-gallery" role="list">${images
+            .map((img) => {
+              const src = exhibitionImageUrl(img);
+              const code = exhibitionImageCode(img);
+              const title = escapeHtml(img.title);
+              return `
+            <figure class="timeline-figure" role="listitem">
+              <a class="timeline-figure__link" href="${src}" target="_blank" rel="noopener noreferrer">
+                <img src="${src}" alt="${title}" loading="lazy" decoding="async" width="320" height="240" />
+              </a>
+              <figcaption>
+                <span class="timeline-figure__code">${escapeHtml(code)}</span>
+                <span class="timeline-figure__title">${title}</span>
+              </figcaption>
+            </figure>`;
+            })
+            .join("")}</div>`
+        : "";
+      return `
       <div class="timeline-item">
-        <p class="kpi">${item.phase}</p>
-        <h3>${item.name}</h3>
-        <p class="muted">${item.detail}</p>
-      </div>
-    `,
-    )
+        <p class="kpi">${escapeHtml(item.phase)}${countLabel}</p>
+        <h3>${escapeHtml(item.name)}</h3>
+        <p class="muted">${escapeHtml(item.detail)}</p>
+        ${gallery}
+      </div>`;
+    })
     .join("");
 }
 

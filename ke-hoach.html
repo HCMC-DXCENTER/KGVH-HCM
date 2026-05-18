@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kế hoạch triển khai | Không gian Văn hóa Hồ Chí Minh</title>
+    <title>Dòng đời Chủ tịch Hồ Chí Minh | Không gian Văn hóa Hồ Chí Minh</title>
     <meta
       name="description"
-      content="Lộ trình và kiến trúc triển khai dự án Không gian Văn hóa Hồ Chí Minh."
+      content="Dòng thời gian cuộc đời và sự nghiệp Chủ tịch Hồ Chí Minh theo đề cương triển lãm ảnh Việt Nam đẹp nhất có tên Bác Hồ."
     />
     <link rel="stylesheet" href="./landing.css" />
   </head>
@@ -15,27 +15,44 @@
       <div class="landing-hero__bg" aria-hidden="true"></div>
       <div class="landing-hero__fade" aria-hidden="true"></div>
       <div class="landing-hero__inner landing-hero__inner--page">
-        <p class="landing-hero__label">Chuyên mục · Dòng thời gian</p>
-        <h1 class="landing-hero__title landing-serif">Kế hoạch triển khai dự án</h1>
+        <p class="landing-hero__label">Triển lãm ảnh · Dòng thời gian</p>
+        <h1 class="landing-hero__title landing-serif">Dòng đời Chủ tịch Hồ Chí Minh</h1>
         <p class="landing-hero__desc">
-          Lộ trình ngắn gọn, rõ trách nhiệm, phù hợp triển khai nhanh tại đơn vị.
+          <em>Việt Nam đẹp nhất có tên Bác Hồ</em> — chín mốc lớn từ quê hương Sen – Chùa
+          đến Di chúc và di sản sống mãi trong sự nghiệp của dân tộc.
         </p>
       </div>
     </header>
 
     <main class="landing-page-main container">
       <section class="block">
-        <h2>Lộ trình thực hiện</h2>
+        <p class="note">
+          <strong>Nguồn nội dung:</strong> Đề cương triển lãm ảnh
+          <em>Việt Nam đẹp nhất có tên Bác Hồ</em> — gồm chín phần, hơn 130 tư liệu
+          ảnh có chú thích (H 1–H 117 và các ảnh tư liệu khác).
+        </p>
+      </section>
+
+      <section class="block">
+        <h2>Dòng đời theo từng giai đoạn</h2>
         <div class="timeline" id="roadmap-list"></div>
       </section>
 
       <section class="block">
-        <h2>Kiến trúc kỹ thuật đề xuất (dễ deploy)</h2>
+        <h2>Khám phá thêm</h2>
         <ul class="goals">
-          <li>Frontend: HTML/CSS/JS thuần (không cần build phức tạp).</li>
-          <li>Hosting: Netlify, Vercel hoặc GitHub Pages.</li>
-          <li>Dữ liệu: tệp JS tĩnh, dễ cập nhật nội dung nhanh.</li>
-          <li>Mở rộng tương lai: thêm API/RSS và dashboard quản trị.</li>
+          <li>
+            <a href="./tu-lieu.html">Kho tàng tư liệu</a> — ảnh, chú thích và nguồn
+            chính thống trên không gian số.
+          </li>
+          <li>
+            <a href="./bao-tang-3d.html">Bảo tàng 3D</a> — trải nghiệm không gian
+            triển lãm ảo.
+          </li>
+          <li>
+            <a href="./thu-vien.html">Thư viện sách</a> — sách điện tử về cuộc đời,
+            sự nghiệp và tư tưởng Hồ Chí Minh.
+          </li>
         </ul>
       </section>
     </main>
@@ -90,6 +107,7 @@
     </nav>
 
     <script src="./landing.js" defer></script>
+    <script src="./exhibition-data.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
