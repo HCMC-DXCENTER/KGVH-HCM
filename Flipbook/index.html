@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flipbook Thu Vien</title>
+    <meta
+      name="description"
+      content="Flipbook tu host voi xem sach PDF, zoom, full-screen va muc luc."
+    />
+    <link rel="stylesheet" href="./flipbook.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="appShell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar__header">
+          <p class="sidebar__eyebrow">Khong gian van hoa</p>
+          <h1 class="sidebar__title">Thu vien Flipbook</h1>
+          <p class="sidebar__desc">
+            Chon tai lieu de doc. Ban desktop co bo cuc day du, mobile toi uu thao tac vuot.
+          </p>
+        </div>
+
+        <section class="panel">
+          <h2 class="panel__title">Danh sach sach</h2>
+          <ul class="book-list" id="bookList"></ul>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel__title">Muc luc tai lieu</h2>
+          <div class="outline" id="outlineContainer">
+            <p class="hint">Tai lieu chua co muc luc noi bo.</p>
+          </div>
+        </section>
+      </aside>
+
+      <main class="viewer" id="viewerRoot">
+        <header class="toolbar">
+          <div class="toolbar__group">
+            <button class="btn btn--ghost btn--mobile" id="toggleSidebarBtn" type="button">
+              Menu
+            </button>
+            <button class="btn" id="prevBtn" type="button" aria-label="Trang truoc">
+              &lsaquo;
+            </button>
+            <div class="page-input-wrap">
+              <label class="sr-only" for="pageInput">So trang</label>
+              <input id="pageInput" type="number" min="1" value="1" />
+              <span class="page-sep">/</span>
+              <span id="totalPages">0</span>
+            </div>
+            <button class="btn" id="nextBtn" type="button" aria-label="Trang sau">
+              &rsaquo;
+            </button>
+          </div>
+
+          <div class="toolbar__group">
+            <button class="btn" id="zoomOutBtn" type="button" aria-label="Giam zoom">-</button>
+            <span class="zoom-badge" id="zoomBadge">100%</span>
+            <button class="btn" id="zoomInBtn" type="button" aria-label="Tang zoom">+</button>
+            <button class="btn btn--ghost" id="fitBtn" type="button">Fit</button>
+            <button class="btn btn--ghost" id="fullscreenBtn" type="button">Full</button>
+          </div>
+        </header>
+
+        <section class="stage-wrap">
+          <div class="status" id="statusText">Dang khoi tao...</div>
+          <div class="page-stage" id="pageStage">
+            <div class="page-sheet" id="pageSheet">
+              <canvas id="pageCanvas"></canvas>
+            </div>
+          </div>
+          <p class="hint hint--foot">
+            Meo: dung phim mui ten trai/phai de lat trang, cham vuot tren mobile.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./flipbook.js"></script>
+  </body>
+</html>

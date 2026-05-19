@@ -62,6 +62,76 @@
         <div id="museums-grid" class="grid grid--museums"></div>
       </section>
 
+      <section class="block block--flipbook" id="thu-vien-flipbook">
+        <div class="section-head">
+          <h2>Thu vien Flipbook</h2>
+          <p class="count">Tai lieu: <strong id="flipbook-books-count">0</strong></p>
+        </div>
+        <p class="section-lead">
+          Doc tai lieu PDF theo dang flipbook ngay tren trang. Ho tro muc luc, zoom, full-screen
+          va toi uu thao tac tren mobile.
+        </p>
+
+        <div class="flipbook-module" id="flipbook-module">
+          <header class="flipbook-toolbar">
+            <div class="flipbook-toolbar__group">
+              <button type="button" class="flipbook-btn flipbook-btn--ghost" id="flipbook-menu-btn">
+                Menu
+              </button>
+              <button type="button" class="flipbook-btn" id="flipbook-prev-btn" aria-label="Trang truoc">
+                &lsaquo;
+              </button>
+              <label class="flipbook-page" for="flipbook-page-input">
+                <span class="visually-hidden">Trang hien tai</span>
+                <input id="flipbook-page-input" type="number" min="1" value="1" />
+                <span>/</span>
+                <span id="flipbook-total-pages">0</span>
+              </label>
+              <button type="button" class="flipbook-btn" id="flipbook-next-btn" aria-label="Trang sau">
+                &rsaquo;
+              </button>
+            </div>
+
+            <div class="flipbook-toolbar__group">
+              <button type="button" class="flipbook-btn" id="flipbook-zoom-out-btn" aria-label="Giam zoom">
+                -
+              </button>
+              <span class="flipbook-zoom-badge" id="flipbook-zoom-badge">100%</span>
+              <button type="button" class="flipbook-btn" id="flipbook-zoom-in-btn" aria-label="Tang zoom">
+                +
+              </button>
+              <button type="button" class="flipbook-btn flipbook-btn--ghost" id="flipbook-fit-btn">Fit</button>
+              <button type="button" class="flipbook-btn flipbook-btn--ghost" id="flipbook-fullscreen-btn">
+                Full
+              </button>
+            </div>
+          </header>
+
+          <div class="flipbook-body">
+            <aside class="flipbook-outline-panel" id="flipbook-outline-panel" hidden>
+              <p class="flipbook-outline-title">Muc luc</p>
+              <div class="flipbook-outline-list" id="flipbook-outline-list">
+                <p class="flipbook-hint">Tai lieu chua co muc luc.</p>
+              </div>
+            </aside>
+
+            <div class="flipbook-stage-wrap">
+              <p class="flipbook-status" id="flipbook-status">Dang khoi tao...</p>
+              <div class="flipbook-stage" id="flipbook-stage">
+                <div class="flipbook-sheet" id="flipbook-sheet">
+                  <canvas id="flipbook-canvas"></canvas>
+                </div>
+              </div>
+              <p class="flipbook-hint">
+                Meo: dung phim mui ten trai/phai de lat trang, vuot ngang de doi trang tren mobile.
+              </p>
+            </div>
+          </div>
+
+          <div class="flipbook-shelf" id="flipbook-book-list"></div>
+        </div>
+      </section>
+
       <section class="block">
         <div class="section-head">
           <h2>Danh sách tư liệu</h2>
@@ -137,6 +207,7 @@
     </nav>
 
     <script src="./landing.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

@@ -130,6 +130,29 @@ const books = [
   },
 ];
 
+const flipbookFiles = [
+  {
+    id: "bup-sen-xanh",
+    title: "Bup Sen Xanh",
+    file: "./Flipbook/42.-Bup-Sen-xanh.pdf",
+  },
+  {
+    id: "nhat-ky-trong-tu",
+    title: "Nhat Ky Trong Tu",
+    file: "./Flipbook/Nhat Ky Trong Tu.pdf",
+  },
+  {
+    id: "tho-ho-chi-minh",
+    title: "Tho Ho Chi Minh",
+    file: "./Flipbook/Tho_HoChiMinh.pdf",
+  },
+  {
+    id: "tu-lang-sen",
+    title: "Tu Lang Sen den Ben Nha Rong",
+    file: "./Flipbook/Ebook-Tu-lang-Sen-den-ben-Nha-Rong--Phan-1---Trinh-Quang-Phu-971874-e3595335-4787-4585-ad61-b1e17bf712b1.pdf",
+  },
+];
+
 const museums = [
   {
     name: "Bảo tàng Hồ Chí Minh",
@@ -589,6 +612,435 @@ function setupFeatured() {
   }
 }
 
+function setupFlipbookModule() {
+  const moduleRoot = document.getElementById("flipbook-module");
+  if (!moduleRoot) return;
+
+  const statusEl = document.getElementById("flipbook-status");
+  const outlinePanel = document.getElementById("flipbook-outline-panel");
+  const outlineList = document.getElementById("flipbook-outline-list");
+  const bookList = document.getElementById("flipbook-book-list");
+  const pageInput = document.getElementById("flipbook-page-input");
+  const totalPagesEl = document.getElementById("flipbook-total-pages");
+  const zoomBadge = document.getElementById("flipbook-zoom-badge");
+  const stage = document.getElementById("flipbook-stage");
+  const sheet = document.getElementById("flipbook-sheet");
+  const canvas = document.getElementById("flipbook-canvas");
+  const menuBtn = document.getElementById("flipbook-menu-btn");
+  const prevBtn = document.getElementById("flipbook-prev-btn");
+  const nextBtn = document.getElementById("flipbook-next-btn");
+  const zoomOutBtn = document.getElementById("flipbook-zoom-out-btn");
+  const zoomInBtn = document.getElementById("flipbook-zoom-in-btn");
+  const fitBtn = document.getElementById("flipbook-fit-btn");
+  const fullscreenBtn = document.getElementById("flipbook-fullscreen-btn");
+
+  const PDF = window.pdfjsLib;
+  if (!PDF || typeof PDF.getDocument !== "function") {
+    if (statusEl) {
+      statusEl.textContent = "Khong tai duoc bo doc PDF. Vui long kiem tra ket noi mang.";
+    }
+    return;
+  }
+
+  PDF.GlobalWorkerOptions.workerSrc =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+  setCount("flipbook-books-count", flipbookFiles.length);
+
+  const ZOOM_MIN = 0.65;
+  const ZOOM_MAX = 2.4;
+  const ZOOM_STEP = 0.15;
+  const SWIPE_THRESHOLD = 48;
+
+  const state = {
+    activeBookId: flipbookFiles[0].id,
+    pdf: null,
+    page: 1,
+    totalPages: 0,
+    zoomFactor: 1,
+    loadToken: 0,
+    rendering: false,
+    touchX: null,
+  };
+
+  renderShelf();
+  bindEvents();
+  openBook(state.activeBookId);
+
+  async function openBook(bookId) {
+    const book = flipbookFiles.find((item) => item.id === bookId);
+    if (!book) return;
+
+    state.activeBookId = bookId;
+    state.page = 1;
+    state.totalPages = 0;
+    state.zoomFactor = 1;
+    if (pageInput) pageInput.value = "1";
+    if (totalPagesEl) totalPagesEl.textContent = "0";
+    if (zoomBadge) zoomBadge.textContent = "100%";
+    setStatus(`Dang tai: ${book.title}...`);
+    renderOutlineHint("Dang doc muc luc...");
+    syncActiveBook();
+
+    const token = ++state.loadToken;
+
+    try {
+      if (state.pdf) {
+        await state.pdf.cleanup();
+        await state.pdf.destroy();
+      }
+
+      const task = PDF.getDocument({
+        url: encodeURI(book.file),
+        cMapPacked: true,
+      });
+      const pdf = await task.promise;
+
+      if (token !== state.loadToken) {
+        await pdf.destroy();
+        return;
+      }
+
+      state.pdf = pdf;
+      state.totalPages = pdf.numPages;
+      if (totalPagesEl) totalPagesEl.textContent = String(state.totalPages);
+      if (pageInput) pageInput.max = String(state.totalPages);
+
+      await buildOutline(pdf);
+      await renderCurrentPage(false, "next");
+    } catch (error) {
+      console.error(error);
+      renderOutlineHint("Khong doc duoc muc luc tai lieu.");
+      setStatus("Khong mo duoc file PDF. Kiem tra ten file trong thu muc Flipbook.");
+    }
+  }
+
+  function bindEvents() {
+    if (menuBtn && outlinePanel) {
+      menuBtn.addEventListener("click", () => {
+        outlinePanel.hidden = !outlinePanel.hidden;
+      });
+    }
+
+    if (prevBtn) prevBtn.addEventListener("click", () => changePage(-1));
+    if (nextBtn) nextBtn.addEventListener("click", () => changePage(1));
+    if (zoomOutBtn) zoomOutBtn.addEventListener("click", () => changeZoom(-ZOOM_STEP));
+    if (zoomInBtn) zoomInBtn.addEventListener("click", () => changeZoom(ZOOM_STEP));
+    if (fitBtn) {
+      fitBtn.addEventListener("click", () => {
+        state.zoomFactor = 1;
+        renderCurrentPage(false, "next");
+      });
+    }
+
+    if (fullscreenBtn) {
+      fullscreenBtn.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", syncFullscreenLabel);
+    }
+
+    if (pageInput) {
+      pageInput.addEventListener("change", () => {
+        const next = Number.parseInt(pageInput.value, 10);
+        goToPage(next, "next");
+      });
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (!document.getElementById("thu-vien-flipbook")) return;
+      if (event.key === "ArrowLeft") changePage(-1);
+      if (event.key === "ArrowRight") changePage(1);
+      if (event.key === "+" || event.key === "=") changeZoom(ZOOM_STEP);
+      if (event.key === "-") changeZoom(-ZOOM_STEP);
+    });
+
+    if (stage) {
+      stage.addEventListener(
+        "touchstart",
+        (event) => {
+          if (!event.touches.length) return;
+          state.touchX = event.touches[0].clientX;
+        },
+        { passive: true },
+      );
+
+      stage.addEventListener(
+        "touchend",
+        (event) => {
+          if (state.touchX == null || !event.changedTouches.length) {
+            state.touchX = null;
+            return;
+          }
+          const deltaX = event.changedTouches[0].clientX - state.touchX;
+          state.touchX = null;
+          if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+          if (deltaX > 0) changePage(-1);
+          if (deltaX < 0) changePage(1);
+        },
+        { passive: true },
+      );
+    }
+
+    window.addEventListener("resize", debounce(() => renderCurrentPage(false, "next"), 180));
+  }
+
+  function renderShelf() {
+    if (!bookList) return;
+    bookList.innerHTML = "";
+
+    flipbookFiles.forEach((book) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "flipbook-book-btn";
+      button.dataset.bookId = book.id;
+
+      const img = document.createElement("img");
+      img.className = "flipbook-book-cover";
+      img.alt = `Bia sach ${book.title}`;
+      img.decoding = "async";
+      img.loading = "lazy";
+      button.appendChild(img);
+
+      const title = document.createElement("span");
+      title.className = "flipbook-book-title";
+      title.textContent = book.title;
+      button.appendChild(title);
+
+      button.addEventListener("click", () => {
+        if (state.activeBookId === book.id) return;
+        if (outlinePanel) outlinePanel.hidden = true;
+        openBook(book.id);
+      });
+
+      bookList.appendChild(button);
+      renderBookCover(book.file, img);
+    });
+
+    syncActiveBook();
+  }
+
+  async function renderBookCover(file, imageEl) {
+    try {
+      const task = PDF.getDocument({
+        url: encodeURI(file),
+        cMapPacked: true,
+      });
+      const pdf = await task.promise;
+      const page = await pdf.getPage(1);
+      const viewport = page.getViewport({ scale: 0.24 });
+      const ratio = window.devicePixelRatio || 1;
+      const offscreen = document.createElement("canvas");
+      offscreen.width = Math.floor(viewport.width * ratio);
+      offscreen.height = Math.floor(viewport.height * ratio);
+      const ctx = offscreen.getContext("2d");
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      await page.render({
+        canvasContext: ctx,
+        viewport,
+      }).promise;
+      imageEl.src = offscreen.toDataURL("image/jpeg", 0.86);
+      await pdf.destroy();
+    } catch (error) {
+      imageEl.alt = "Khong tai duoc bia sach";
+    }
+  }
+
+  function syncActiveBook() {
+    if (!bookList) return;
+    bookList.querySelectorAll(".flipbook-book-btn").forEach((button) => {
+      const isActive = button.dataset.bookId === state.activeBookId;
+      button.classList.toggle("is-active", isActive);
+      if (isActive) {
+        button.scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest",
+        });
+      }
+    });
+  }
+
+  function changePage(delta) {
+    if (!state.pdf || state.rendering) return;
+    const direction = delta < 0 ? "prev" : "next";
+    goToPage(state.page + delta, direction);
+  }
+
+  function goToPage(targetPage, direction) {
+    if (!state.pdf || state.rendering || !Number.isFinite(targetPage)) return;
+    const page = clamp(Math.round(targetPage), 1, state.totalPages);
+    if (page === state.page) {
+      if (pageInput) pageInput.value = String(page);
+      return;
+    }
+    state.page = page;
+    renderCurrentPage(true, direction);
+  }
+
+  function changeZoom(delta) {
+    if (!state.pdf) return;
+    const next = clamp(state.zoomFactor + delta, ZOOM_MIN, ZOOM_MAX);
+    if (next === state.zoomFactor) return;
+    state.zoomFactor = Number(next.toFixed(2));
+    renderCurrentPage(false, "next");
+  }
+
+  async function renderCurrentPage(animate, direction) {
+    if (!state.pdf || !canvas || !stage) return;
+    state.rendering = true;
+    updateControls();
+
+    try {
+      const page = await state.pdf.getPage(state.page);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const availableWidth = Math.max(stage.clientWidth - 30, 280);
+      const fitScale = Math.min(availableWidth / baseViewport.width, 1.8);
+      const viewport = page.getViewport({ scale: fitScale * state.zoomFactor });
+      const ratio = window.devicePixelRatio || 1;
+      const context = canvas.getContext("2d", { alpha: false });
+      canvas.width = Math.floor(viewport.width * ratio);
+      canvas.height = Math.floor(viewport.height * ratio);
+      canvas.style.width = `${Math.floor(viewport.width)}px`;
+      canvas.style.height = `${Math.floor(viewport.height)}px`;
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      await page.render({
+        canvasContext: context,
+        viewport,
+      }).promise;
+
+      if (animate) triggerFlip(direction);
+      if (pageInput) pageInput.value = String(state.page);
+      if (zoomBadge) zoomBadge.textContent = `${Math.round(state.zoomFactor * 100)}%`;
+
+      const activeBook = flipbookFiles.find((item) => item.id === state.activeBookId);
+      setStatus(`${activeBook ? activeBook.title : "Tai lieu"} | Trang ${state.page}/${state.totalPages}`);
+    } catch (error) {
+      console.error(error);
+      setStatus("Khong render duoc trang. Thu tai lai tai lieu.");
+    } finally {
+      state.rendering = false;
+      updateControls();
+    }
+  }
+
+  async function buildOutline(pdf) {
+    let outline = [];
+    try {
+      outline = (await pdf.getOutline()) || [];
+    } catch (error) {
+      outline = [];
+    }
+
+    if (!outline.length) {
+      renderOutlineHint("Tai lieu nay chua co muc luc noi bo.");
+      return;
+    }
+
+    const root = document.createElement("ul");
+    await appendOutlineItems(root, outline, pdf);
+    if (outlineList) {
+      outlineList.innerHTML = "";
+      outlineList.appendChild(root);
+    }
+  }
+
+  async function appendOutlineItems(container, items, pdf) {
+    for (const item of items) {
+      const li = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = item.title || "Muc luc";
+      const pageNum = await resolveDestinationPage(item.dest, pdf);
+      if (pageNum) {
+        button.addEventListener("click", () => {
+          goToPage(pageNum, "next");
+          if (outlinePanel) outlinePanel.hidden = true;
+        });
+      } else {
+        button.disabled = true;
+        button.style.opacity = "0.5";
+      }
+      li.appendChild(button);
+
+      if (Array.isArray(item.items) && item.items.length) {
+        const child = document.createElement("ul");
+        await appendOutlineItems(child, item.items, pdf);
+        li.appendChild(child);
+      }
+      container.appendChild(li);
+    }
+  }
+
+  async function resolveDestinationPage(dest, pdf) {
+    if (!dest) return null;
+    try {
+      const explicitDest = typeof dest === "string" ? await pdf.getDestination(dest) : dest;
+      if (!explicitDest || !explicitDest[0]) return null;
+      const pageIndex = await pdf.getPageIndex(explicitDest[0]);
+      return pageIndex + 1;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function renderOutlineHint(text) {
+    if (!outlineList) return;
+    outlineList.innerHTML = `<p class="flipbook-hint">${escapeHtml(text)}</p>`;
+  }
+
+  function triggerFlip(direction) {
+    if (!sheet) return;
+    sheet.classList.remove("is-flip-next", "is-flip-prev");
+    void sheet.offsetWidth;
+    sheet.classList.add(direction === "prev" ? "is-flip-prev" : "is-flip-next");
+  }
+
+  function updateControls() {
+    const disabled = !state.pdf || state.rendering;
+    if (prevBtn) prevBtn.disabled = disabled || state.page <= 1;
+    if (nextBtn) nextBtn.disabled = disabled || state.page >= state.totalPages;
+    if (pageInput) pageInput.disabled = disabled;
+    if (zoomInBtn) zoomInBtn.disabled = disabled || state.zoomFactor >= ZOOM_MAX;
+    if (zoomOutBtn) zoomOutBtn.disabled = disabled || state.zoomFactor <= ZOOM_MIN;
+    if (fitBtn) fitBtn.disabled = disabled;
+  }
+
+  function setStatus(text) {
+    if (statusEl) statusEl.textContent = text;
+  }
+
+  async function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        await moduleRoot.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function syncFullscreenLabel() {
+    if (!fullscreenBtn) return;
+    fullscreenBtn.textContent = document.fullscreenElement ? "Exit" : "Full";
+  }
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function debounce(fn, wait) {
+  let timerId = null;
+  return (...args) => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => fn(...args), wait);
+  };
+}
+
 function init() {
   renderSources(sources);
   renderDocuments(documentsData);
@@ -599,6 +1051,7 @@ function init() {
   setupFilters();
   setupStats();
   setupFeatured();
+  setupFlipbookModule();
   setupYear();
 }
 
