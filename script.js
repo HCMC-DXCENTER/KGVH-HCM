@@ -202,6 +202,15 @@ const museums = [
     url: "https://cantho.hochiminh.vn/",
     image: "./assets/museums/baotanghochiminhchinhanhcantho.jpg",
   },
+  {
+    name: "Nghĩa trang Hàng Dương",
+    region: "Bà Rịa - Vũng Tàu",
+    url: "https://nghiatranghangduong.tphcm.gov.vn/vi/maps",
+    image: "./assets/museums/nghiatranghangduong.jpg",
+    type: "Bản đồ",
+    action: "Xem bản đồ",
+    hint: "Bản đồ tham quan trực tuyến",
+  },
 ];
 
 /** Dòng đời Chủ tịch Hồ Chí Minh — theo đề cương triển lãm ảnh */
@@ -233,7 +242,7 @@ const roadmap = [
   {
     phase: "1920 – 1924",
     name: "Chiến sĩ cộng sản quốc tế — đại biểu nhân dân thuộc địa",
-    imageCount: 7,
+    imageCount: 12,
     detail:
       "Nguyễn Ái Quốc hoạt động trong phong trào cộng sản và công đoàn Pháp, sáng tác trên báo Le Paria, đại diện nhân dân Đông Dương tại các diễn đàn quốc tế.",
     highlights: [
@@ -245,7 +254,7 @@ const roadmap = [
   {
     phase: "1924 – 1930",
     name: "Người nhóm lửa cách mạng",
-    imageCount: 12,
+    imageCount: 3,
     detail:
       "Sau Đại hội V Quốc tế Cộng sản, Nguyễn Ái Quốc về Quảng Châu vừa tham gia cách mạng Trung Quốc vừa xây dựng phong trào cách mạng Việt Nam và Đông Dương, chuẩn bị thành lập Đảng.",
     highlights: [
@@ -256,7 +265,7 @@ const roadmap = [
   {
     phase: "1930 – 1945",
     name: "Người lãnh đạo Tổng khởi nghĩa thắng lợi",
-    imageCount: 24,
+    imageCount: 20,
     detail:
       "Từ phong trào Xô Viết Nghệ Tĩnh đến về nước (1941), lãnh đạo Việt Minh, thành lập Quân đội nhân dân và chỉ huy Cách mạng Tháng Tám — khai sinh nước Việt Nam Dân chủ Cộng hòa.",
     highlights: [
@@ -268,7 +277,7 @@ const roadmap = [
   {
     phase: "1945 – 1954",
     name: "Người xây nền độc lập",
-    imageCount: 28,
+    imageCount: 27,
     detail:
       "Chủ tịch nước Việt Nam Dân chủ Cộng hòa đầu tiên: kiến thiết chính quyền dân chủ, đàm phán với Pháp, quyết định kháng chiến trường kỳ và lãnh đạo đến thắng lợi Điện Biên Phủ.",
     highlights: [
@@ -280,7 +289,7 @@ const roadmap = [
   {
     phase: "1954 – 1969",
     name: "Lãnh tụ của nhân dân",
-    imageCount: 35,
+    imageCount: 32,
     detail:
       "Lãnh đạo miền Bắc xây dựng chủ nghĩa xã hội, đấu tranh thống nhất Tổ quốc; gần gũi công nhân, nông dân, thanh niên, phụ nữ; đối ngoại và động viên miền Nam anh hùng.",
     highlights: [
@@ -441,13 +450,15 @@ function renderMuseums(items) {
             : ""
         }
         <div class="card__badges">
-          <span class="badge success">3D</span>
+          <span class="badge success">${escapeHtml(item.type || "3D")}</span>
           <span class="badge">${escapeHtml(item.region)}</span>
         </div>
         <h3>${escapeHtml(item.name)}</h3>
-        <p class="muted card__hint">Không gian tham quan trực tuyến</p>
+        <p class="muted card__hint">${escapeHtml(item.hint || "Không gian tham quan trực tuyến")}</p>
         <div class="actions">
-          <a class="btn primary" href="${item.url}" target="_blank" rel="noopener noreferrer">Tham quan 3D</a>
+          <a class="btn primary" href="${item.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+            item.action || "Tham quan 3D",
+          )}</a>
         </div>
       </article>
     `,
