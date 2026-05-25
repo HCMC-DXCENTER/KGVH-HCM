@@ -158,41 +158,49 @@ const museums = [
     name: "Bảo tàng Hồ Chí Minh",
     region: "Toàn quốc",
     url: "https://baotang.hochiminh.vn/",
+    image: "./assets/museums/baotanghochiminh.jpg",
   },
   {
     name: "Khu di tích Bến Nhà Rồng",
     region: "TP.HCM",
     url: "https://bennharong.hochiminh.vn/",
+    image: "./assets/museums/khuditichbennharong.jpg",
   },
   {
     name: "Khu di tích Pác Bó",
     region: "Cao Bằng",
     url: "https://pacbo.hochiminh.vn/",
+    image: "./assets/museums/khuditichpacbo.jpg",
   },
   {
     name: "Khu di tích Làng Sen Kim Liên",
     region: "Nghệ An",
     url: "https://langsenkimlien.hochiminh.vn/",
+    image: "./assets/museums/khuditichlangsenkimlien.jpg",
   },
   {
     name: "Khu di tích Đá Chông (K9)",
     region: "Hà Nội",
     url: "https://k9dachong.hochiminh.vn/",
+    image: "./assets/museums/khuditichdachong.jpg",
   },
   {
     name: "Khu di tích Tân Trào - Tuyên Quang",
     region: "Tuyên Quang",
     url: "https://tantrao.hochiminh.vn/",
+    image: "./assets/museums/khuditichtantraotuyenquan.jpg",
   },
   {
     name: "Bảo tàng Hồ Chí Minh - Thừa Thiên Huế",
     region: "Thừa Thiên Huế",
     url: "https://baotanghcmtthue.hochiminh.vn/",
+    image: "./assets/museums/baotanghochiminhthuathienhue.jpg",
   },
   {
     name: "Bảo tàng Hồ Chí Minh - Chi nhánh Cần Thơ",
     region: "Cần Thơ",
     url: "https://cantho.hochiminh.vn/",
+    image: "./assets/museums/baotanghochiminhchinhanhcantho.jpg",
   },
 ];
 
@@ -425,6 +433,13 @@ function renderMuseums(items) {
     .map(
       (item) => `
       <article class="card card--museum">
+        ${
+          item.image
+            ? `<img class="card__thumb" src="${escapeHtml(item.image)}" alt="${escapeHtml(
+                item.name,
+              )}" loading="lazy" decoding="async" />`
+            : ""
+        }
         <div class="card__badges">
           <span class="badge success">3D</span>
           <span class="badge">${escapeHtml(item.region)}</span>

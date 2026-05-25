@@ -92,7 +92,7 @@ body.page-landing * {
       rgba(26, 21, 16, 0.25) 38%,
       rgba(26, 21, 16, 0.55) 100%
     ),
-    url("./assets/hero-reference.png");
+    url("./assets/ui/hero-reference.png");
   background-size: cover;
   background-position: center 35%;
   z-index: 0;
@@ -729,6 +729,15 @@ body.page-landing .card .actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+body.page-landing .card__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: rgba(139, 115, 85, 0.12);
 }
 
 body.page-landing .btn {

@@ -1,5 +1,5 @@
 const EXHIBITION = {
-  "dir": "./ANH VA CHU THICH THU TỊCH HỒ CHÍ MINH",
+  "dir": "./assets/exhibition",
   "captions": {
     "1": "Cụ phó bảng Nguyễn Sinh Sắc, thân phụ Chủ tịch Hồ Chí Minh.",
     "2": "Bà Nguyễn Thị Thanh, chị ruột Chủ tịch Hồ Chí Minh.",
